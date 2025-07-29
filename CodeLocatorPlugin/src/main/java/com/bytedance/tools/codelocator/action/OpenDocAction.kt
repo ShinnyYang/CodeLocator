@@ -13,6 +13,12 @@ class OpenDocAction :
     override fun isEnable(e: AnActionEvent) = true
 
     override fun actionPerformed(e: AnActionEvent) {
+        val config = CodeLocatorUserConfig.loadConfig()
+        val docUrl = if(config.isEnglish()) {
+            NetUtils.DOC_URL_EN
+        } else {
+            NetUtils.DOC_URL
+        }
         IdeaUtils.openBrowser(e.project, NetUtils.DOC_URL)
         Mob.mob(Mob.Action.CLICK, Mob.Button.DOC)
     }
