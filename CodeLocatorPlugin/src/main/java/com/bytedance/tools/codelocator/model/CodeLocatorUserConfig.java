@@ -449,7 +449,7 @@ public class CodeLocatorUserConfig {
     }
 
     public boolean isEnglish() {
-        return this.res == "en"
+        return this.res == "en";
     }
 
     @NotNull

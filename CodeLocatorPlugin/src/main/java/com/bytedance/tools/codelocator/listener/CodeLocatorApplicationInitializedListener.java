@@ -1,22 +1,25 @@
 package com.bytedance.tools.codelocator.listener;
 
-import com.android.ddmlib.IDevice;
-import com.bytedance.tools.codelocator.device.Device;
-import com.bytedance.tools.codelocator.device.DeviceManager;
 import com.bytedance.tools.codelocator.model.CodeLocatorUserConfig;
 import com.bytedance.tools.codelocator.model.ColorInfo;
-import com.bytedance.tools.codelocator.utils.*;
+import com.bytedance.tools.codelocator.utils.CodeLocatorUtils;
+import com.bytedance.tools.codelocator.utils.CoordinateUtils;
+import com.bytedance.tools.codelocator.utils.FileUtils;
+import com.bytedance.tools.codelocator.utils.GsonUtils;
+import com.bytedance.tools.codelocator.utils.JComponentUtils;
+import com.bytedance.tools.codelocator.utils.Log;
+import com.bytedance.tools.codelocator.utils.Mob;
+import com.bytedance.tools.codelocator.utils.NetUtils;
+import com.bytedance.tools.codelocator.utils.ResUtils;
+import com.bytedance.tools.codelocator.utils.ThreadUtils;
 import com.google.gson.reflect.TypeToken;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.codeInsight.hint.HintManagerImpl;
 import com.intellij.ide.ApplicationInitializedListener;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.event.SelectionEvent;
 import com.intellij.openapi.editor.event.SelectionListener;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.impl.ProjectLifecycleListener;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.ui.LightweightHint;
 import com.intellij.ui.awt.RelativePoint;
@@ -67,26 +70,6 @@ public class CodeLocatorApplicationInitializedListener implements ApplicationIni
 
         ThreadUtils.submit(() -> {
             NetUtils.fetchConfig();
-        });
-
-        ApplicationManager.getApplication().getMessageBus().connect().subscribe(ProjectLifecycleListener.TOPIC, new ProjectLifecycleListener() {
-            @Override
-            public void afterProjectClosed(@NotNull Project project) {
-                final Device currentDevice = DeviceManager.getCurrentDevice(project, true);
-                if (currentDevice != null && currentDevice.getDevice() != null) {
-                    final String serialNumber = currentDevice.getDevice().getSerialNumber();
-                    CodeLocatorUserConfig.loadConfig().setLastDevice(serialNumber);
-                    DeviceManager.onProjectClose(project);
-                } else if (currentDevice == null) {
-                    final IDevice device = DeviceManager.onProjectClose(project);
-                    if (device != null) {
-                        CodeLocatorUserConfig.loadConfig().setLastDevice(device.getSerialNumber());
-                    }
-                } else {
-                    DeviceManager.onProjectClose(project);
-                }
-                CodeLocatorUserConfig.updateConfig(CodeLocatorUserConfig.loadConfig());
-            }
         });
     }
 

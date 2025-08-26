@@ -7,13 +7,17 @@ import com.bytedance.tools.codelocator.device.Device
 import com.bytedance.tools.codelocator.device.DeviceManager
 import com.bytedance.tools.codelocator.device.action.AdbAction
 import com.bytedance.tools.codelocator.device.action.AdbCommand
-import com.bytedance.tools.codelocator.device.action.AdbCommand.*
+import com.bytedance.tools.codelocator.device.action.AdbCommand.ACTION
 import com.bytedance.tools.codelocator.device.action.BroadcastAction
 import com.bytedance.tools.codelocator.exception.ExecuteException
 import com.bytedance.tools.codelocator.listener.DocumentListenerAdapter
 import com.bytedance.tools.codelocator.listener.OnActionListener
 import com.bytedance.tools.codelocator.listener.OnClickListener
-import com.bytedance.tools.codelocator.model.*
+import com.bytedance.tools.codelocator.model.CodeLocatorUserConfig
+import com.bytedance.tools.codelocator.model.EditableTableModel
+import com.bytedance.tools.codelocator.model.SchemaHistory
+import com.bytedance.tools.codelocator.model.SchemaInfo
+import com.bytedance.tools.codelocator.model.SearchableListModel
 import com.bytedance.tools.codelocator.panels.CodeLocatorWindow
 import com.bytedance.tools.codelocator.panels.OnEventListener
 import com.bytedance.tools.codelocator.panels.SearchableJList
@@ -44,7 +48,6 @@ import com.intellij.ui.awt.RelativePoint
 import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.table.JBTable
-import com.sun.jndi.toolkit.url.Uri
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import java.awt.Component
@@ -262,7 +265,6 @@ class SendSchemaDialog(
     private fun convertToEncodeSchema(originSchema: String?): String {
         originSchema ?: return ""
         try {
-            val uri = Uri(originSchema)
             var hasQuery = true
             val indexOfSplit = originSchema.indexOf("?")
             if (indexOfSplit > -1) {
@@ -326,7 +328,6 @@ class SendSchemaDialog(
                 return
             }
             val uriStr = textField.text
-            val uri = Uri(uriStr)
             var hasQuery = false
             val indexOfSplit = uriStr.indexOf("?")
             if (indexOfSplit > -1) {

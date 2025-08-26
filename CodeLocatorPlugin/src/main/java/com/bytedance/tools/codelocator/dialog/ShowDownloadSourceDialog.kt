@@ -1,14 +1,22 @@
 package com.bytedance.tools.codelocator.dialog
 
 import com.bytedance.tools.codelocator.panels.CodeLocatorWindow
-import com.bytedance.tools.codelocator.utils.*
+import com.bytedance.tools.codelocator.utils.CoordinateUtils
+import com.bytedance.tools.codelocator.utils.FileUtils
+import com.bytedance.tools.codelocator.utils.JComponentUtils
+import com.bytedance.tools.codelocator.utils.Log
+import com.bytedance.tools.codelocator.utils.Mob
+import com.bytedance.tools.codelocator.utils.NotificationUtils
+import com.bytedance.tools.codelocator.utils.OSHelper
+import com.bytedance.tools.codelocator.utils.ResUtils
+import com.bytedance.tools.codelocator.utils.ThreadUtils
+import com.bytedance.tools.codelocator.utils.UIUtils
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.util.SystemInfo
-import sun.font.FontDesignMetrics
 import java.awt.Dimension
 import javax.swing.Action
 import javax.swing.BorderFactory
@@ -104,7 +112,7 @@ class ShowDownloadSourceDialog(val codeLocatorWindow: CodeLocatorWindow, val pro
             close(0)
         }
         try {
-            val stringWidth = FontDesignMetrics.getMetrics(confirmButton.font).stringWidth(btnText)
+            val stringWidth = UIUtils.getStringWidth(confirmButton, confirmButton.font, btnText)
             confirmButton.maximumSize = Dimension(stringWidth, 38)
         } catch (t: Throwable) {
             Log.e("getfont width error", t)
@@ -117,7 +125,7 @@ class ShowDownloadSourceDialog(val codeLocatorWindow: CodeLocatorWindow, val pro
             close(0)
         }
         try {
-            val stringWidth = FontDesignMetrics.getMetrics(dontShowButton.font).stringWidth(dontShowText)
+            val stringWidth = UIUtils.getStringWidth(dontShowButton, dontShowButton.font, dontShowText)
             dontShowButton.maximumSize = Dimension(stringWidth, 38)
         } catch (t: Throwable) {
             Log.e("getFont width error", t)

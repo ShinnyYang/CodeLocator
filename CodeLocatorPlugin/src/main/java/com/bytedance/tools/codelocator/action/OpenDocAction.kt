@@ -1,5 +1,6 @@
 package com.bytedance.tools.codelocator.action
 
+import com.bytedance.tools.codelocator.model.CodeLocatorUserConfig
 import com.bytedance.tools.codelocator.utils.IdeaUtils
 import com.bytedance.tools.codelocator.utils.ImageUtils
 import com.bytedance.tools.codelocator.utils.Mob

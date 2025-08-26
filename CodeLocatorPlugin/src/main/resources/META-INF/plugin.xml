@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.bytedance.tools.codelocator</id>
-    <idea-version since-build="191.0"/>
+    <idea-version since-build="213.0"/>
     <name>CodeLocator</name>
     <vendor email="liujian.android@bytedance.com" url="https://github.com/bytedance/codelocator">liujian.android</vendor>
 
@@ -52,9 +52,15 @@
 
     <depends>org.jetbrains.android</depends>
 
-    <extensions defaultExtensionNs="com.intellij">
+    <projectListeners>
+        <listener class="com.bytedance.tools.codelocator.listener.CodeLocatorProjectManagerListener" topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </projectListeners>
 
-        <checkinHandlerFactory implementation="com.bytedance.tools.codelocator.importopt.DeleteImportinHandlerFactory"/>
+    <extensions defaultExtensionNs="org.jetbrains.kotlin">
+        <supportsKotlinPluginMode supportsK2="true" />
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
 
         <defaultProjectTypeProvider type="Android"/>
 
